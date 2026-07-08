@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicita una Demo - APPro</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-primary: #FF3B1D;
+            --color-primary-hover: #D62F15;
+            --color-bg-dark: #111827; /* Azul/Gris muy oscuro y moderno */
+            --color-bg-light: #F9FAFB;
+            --color-text-dark: #111827;
+            --color-text-light: #F9FAFB;
+            --color-text-muted: #6B7280;
+            --color-border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            -webkit-font-smoothing: antialiased; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+            background-color: #FFFFFF;
+        }
+
+        /* Header Minimalista (solo logo y volver) */
+        .header {
+            padding: 32px 48px;
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            text-decoration: none; 
+            color: var(--color-text-light); 
+            font-weight: 800; 
+            font-size: 1.5rem;
+        }
+        
+        .logo-isotipo { display: flex; flex-direction: column; gap: 3px; transform: rotate(-10deg); }
+        .logo-isotipo .line { height: 3px; background-color: var(--color-primary); border-radius: 2px; }
+        .logo-isotipo .line:nth-child(1) { width: 16px; }
+        .logo-isotipo .line:nth-child(2) { width: 22px; }
+        .logo-isotipo .line:nth-child(3) { width: 10px; }
+        
+        .back-link {
+            color: var(--color-text-dark);
+            background-color: transparent;
+            border: 1px solid var(--color-border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .back-link:hover {
+            background-color: var(--color-bg-light);
+            border-color: #D1D5DB;
+        }
+
+        /* Layout Split (Mitad y Mitad) */
+        .split-layout {
+            display: flex;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+
+        /* Mitad Izquierda - Value Proposition */
+        .left-panel {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-light);
+            padding: 120px 80px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Adorno visual de fondo */
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,59,29,0.15) 0%, rgba(17,24,39,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 6px 16px;
+            background-color: rgba(255, 59, 29, 0.1);
+            color: var(--color-primary);
+            font-weight: 700;
+            font-size: 0.875rem;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 59, 29, 0.2);
+        }
+
+        .left-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+        
+        .left-title span { color: var(--color-primary); }
+
+        .left-subtitle {
+            font-size: 1.125rem;
+            color: #9CA3AF;
+            line-height: 1.6;
+            margin-bottom: 48px;
+            max-width: 480px;
+        }
+
+        .benefits-list { list-style: none; display: flex; flex-direction: column; gap: 24px; }
+        .benefit-item { display: flex; align-items: flex-start; gap: 16px; }
+        
+        .benefit-icon {
+            width: 28px; height: 28px; 
+            background-color: rgba(255,255,255,0.1); 
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; 
+            color: var(--color-primary);
+            flex-shrink: 0; font-size: 14px; font-weight: bold;
+        }
+        
+        .benefit-text { font-size: 1rem; color: #D1D5DB; line-height: 1.5; }
+        .benefit-text strong { color: #FFFFFF; display: block; margin-bottom: 4px; font-size: 1.0625rem; }
+
+        /* Mitad Derecha - Formulario */
+        .right-panel {
+            flex: 1;
+            min-width: 400px;
+            background-color: #FFFFFF;
+            padding: 120px 80px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 460px;
+        }
+
+        .form-header { margin-bottom: 40px; }
+        .form-title { font-size: 2rem; font-weight: 800; color: var(--color-text-dark); margin-bottom: 12px; letter-spacing: -0.01em; }
+        .form-subtitle { color: var(--color-text-muted); font-size: 1.0625rem; line-height: 1.5; }
+
+        .form-group { margin-bottom: 24px; }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        .form-label span { color: var(--color-primary); } 
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--color-text-dark);
+            transition: all 0.2s ease;
+        }
+        
+        .form-control::placeholder { color: #9CA3AF; }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 4px rgba(255, 59, 29, 0.1);
+        }
+        
+        select.form-control { appearance: none; cursor: pointer; }
+        .select-wrapper { position: relative; }
+        .select-wrapper::after {
+            content: '▼';
+            font-size: 10px;
+            color: #9CA3AF;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--color-primary);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.125rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .btn-submit:hover {
+            background-color: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(255, 59, 29, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .split-layout { flex-direction: column; }
+            
+            .header { padding: 24px; position: relative; background-color: var(--color-bg-dark); }
+            .back-link { color: #FFFFFF; border-color: rgba(255,255,255,0.2); }
+            .back-link:hover { background-color: rgba(255,255,255,0.1); border-color: #FFFFFF; }
+            
+            .left-panel { min-height: auto; padding: 64px 24px; }
+            .left-title { font-size: 2.5rem; }
+            
+            .right-panel { padding: 64px 24px; }
+            .form-title { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <!-- Logo -->
+        <a href="Untitled-1.html" class="logo">
+            <div class="logo-isotipo">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <span>APPro</span>
+        </a>
+        <!-- Botón para volver al Home -->
+        <a href="Untitled-1.html" class="back-link">
+            ← Volver al sitio
+        </a>
+    </header>
+
+    <main class="split-layout">
+        <!-- Mitad Izquierda (Propuesta de Valor y Confianza) -->
+        <section class="left-panel">
+            <div class="badge">Atención Personalizada</div>
+            <h1 class="left-title">Fideliza a tus clientes con <span>APPro</span></h1>
+            <p class="left-subtitle">Descubre cómo la herramienta de gestión integral impulsada por IA puede transformar tu centro de servicios automotriz, ahorrándote tiempo y aumentando tu rentabilidad.</p>
+            
+            <ul class="benefits-list">
+                <li class="benefit-item">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-text">
+                        <strong>Diagnósticos 5x más rápidos</strong>
+                        Checklists digitales y escaneo de patentes desde cualquier celular.
+                    </div>
+                </li>
+                <li class="benefit-item">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-text">
+                        <strong>Aumento del ticket promedio</strong>
+                        Cotizaciones automáticas y ventas cruzadas sugeridas en el momento.
+                    </div>
+                </li>
+                <li class="benefit-item">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-text">
+                        <strong>Retención de clientes</strong>
+                        Recordatorios de mantenimiento automáticos por WhatsApp y Email.
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Mitad Derecha (Formulario Activo) -->
+        <section class="right-panel">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2 class="form-title">Solicita una demo gratis</h2>
+                    <p class="form-subtitle">Completa tus datos y un especialista se contactará contigo a la brevedad para coordinar una reunión.</p>
+                </div>
+
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label class="form-label" for="nombre">Nombre y Apellido <span>*</span></label>
+                        <input type="text" id="nombre" class="form-control" placeholder="Ej. Juan Pérez" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="whatsapp">Número de WhatsApp <span>*</span></label>
+                        <input type="tel" id="whatsapp" class="form-control" placeholder="+54 9 11 1234-5678" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">Correo electrónico <span>*</span></label>
+                        <input type="email" id="email" class="form-control" placeholder="juan@tutaller.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="empresa">Nombre del Centro de Servicios</label>
+                        <input type="text" id="empresa" class="form-control" placeholder="Ej. Neumáticos Centro">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="pais">País <span>*</span></label>
+                        <div class="select-wrapper">
+                            <select id="pais" class="form-control" required>
+                                <option value="" disabled selected>Selecciona tu país</option>
+                                <option value="ar">Argentina</option>
+                                <option value="cl">Chile</option>
+                                <option value="uy">Uruguay</option>
+                                <option value="co">Colombia</option>
+                                <option value="mx">México</option>
+                                <option value="es">España</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Solicitar Demo Ahora
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
