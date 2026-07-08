@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soluciones - APPro</title>
+    <meta name="description" content="APPro: Soluciones con Inteligencia Artificial para digitalizar y optimizar tu taller automotriz, neumatiquera o lubricentro.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-primary: #FF3B1D;
+            --color-primary-hover: #D62F15;
+            --color-bg-light: #F8F9FA;
+            --color-header-bg: #FFFFFF;
+            --color-text-dark: #111827;
+            --color-text-muted: #4B5563;
+            --color-border: #E5E7EB;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-light);
+            color: var(--color-text-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header & Navigation */
+        .header {
+            background-color: var(--color-header-bg);
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid var(--color-border);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--color-text-dark);
+            font-weight: 800;
+            font-size: 1.75rem;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-isotipo {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            transform: rotate(-10deg);
+        }
+
+        .logo-isotipo .line {
+            width: 18px;
+            height: 3px;
+            background-color: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        .logo-isotipo .line:nth-child(2) { width: 24px; }
+        .logo-isotipo .line:nth-child(3) { width: 12px; }
+
+        .logo-text {
+            color: var(--color-primary);
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--color-primary);
+        }
+
+        /* Main Section */
+        .page-main {
+            padding: 160px 24px 80px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--color-text-muted);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* Interactive Tabs (Cards Grid) */
+        .tabs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .tab-card {
+            background-color: #FFFFFF;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            user-select: none;
+        }
+
+        .tab-card:hover {
+            border-color: #CBD5E1;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-card.is-active {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(255, 59, 29, 0.15);
+        }
+
+        /* Dynamic Container */
+        .dynamic-container {
+            background-color: #FFFFFF;
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 64px 40px;
+            min-height: 300px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .tab-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 200px;
+            color: var(--color-text-muted);
+        }
+
+        .tab-placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        .tab-panel {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .tab-panel.is-active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .panel-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: var(--color-text-dark);
+        }
+
+        .panel-subtitle {
+            font-size: 1.125rem;
+            color: var(--color-text-muted);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* Benefits Grid Inside Panel */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .benefit-card {
+            background-color: var(--color-bg-light);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--color-border);
+            transition: var(--transition-smooth);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04);
+            border-color: #CBD5E1;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-primary);
+        }
+
+        .benefit-card p {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           Sección: El Ciclo 360°
+           ========================================= */
+        .cycle-section {
+            margin-top: 64px;
+            margin-bottom: 80px;
+            padding-top: 48px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .cycle-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 48px;
+            letter-spacing: -0.02em;
+            color: var(--color-text-dark);
+        }
+
+        .cycle-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+            list-style: none;
+            padding: 0;
+        }
+
+        .cycle-timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-primary), #FFB4A8);
+            z-index: 0;
+        }
+
+        .cycle-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cycle-step-marker {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(255, 59, 29, 0.25);
+        }
+
+        .cycle-step-text {
+            font-weight: 600;
+            font-size: 1rem;
+            line-height: 1.4;
+            color: var(--color-text-dark);
+        }
+
+        /* CTA Actions */
+        .panel-cta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            font-size: 1.0625rem;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: #FFFFFF;
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary-hover);
+            border-color: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 59, 29, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-text-dark);
+            border: 2px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-bg-light);
+            border-color: #CBD5E1;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .tabs-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .cycle-timeline {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+            .cycle-timeline::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-main { padding: 120px 16px 40px; }
+            .section-title { font-size: 2rem; }
+            .tabs-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .dynamic-container {
+                padding: 40px 20px;
+            }
+            .panel-title { font-size: 1.75rem; }
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .cycle-timeline {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            .cycle-step {
+                flex-direction: row;
+                text-align: left;
+                gap: 16px;
+                padding: 0;
+            }
+            .cycle-step-marker {
+                flex-shrink: 0;
+                margin-bottom: 0;
+            }
+            .panel-cta {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn {
+                width: 100%;
+            }
+            .nav-list { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="Untitled-1.html" class="logo">
+                <div class="logo-wrapper">
+                    <div class="logo-isotipo">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                    <span class="logo-text">APPro</span>
+                </div>
+            </a>
+
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="Untitled-1.html" class="nav-link">Home</a></li>
+                    <li><a href="soluciones.html" class="nav-link active">Soluciones</a></li>
+                    <li><a href="Untitled-1.html#precios" class="nav-link">Precios</a></li>
+                    <li><a href="Untitled-1.html#casos" class="nav-link">Casos de éxito</a></li>
+                    <li><a href="Untitled-1.html#nosotros" class="nav-link">Quienes somos</a></li>
+                    <li><a href="Untitled-1.html#partner" class="nav-link">Partner</a></li>
+                    <li><a href="Untitled-1.html#blog" class="nav-link">Blog</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-main">
+        <div class="content-container">
+            <div class="section-header">
+                <h1 class="section-title">Nuestras Soluciones</h1>
+                <p class="section-subtitle">Descubre cómo APPro puede transformar el día a día de tu neumatiquera o lubricentro.</p>
+            </div>
+
+            <!-- Tab Navigation Grid -->
+            <div class="tabs-grid" role="tablist" aria-label="Soluciones de APPro">
+                <div class="tab-card" role="tab" aria-selected="false" aria-controls="panel-appro" data-target="panel-appro">APPro</div>
+                <div class="tab-card" role="tab" aria-selected="false" aria-controls="panel-bmp" data-target="panel-bmp">BMP</div>
+                <div class="tab-card" role="tab" aria-selected="false" aria-controls="panel-scanpro" data-target="panel-scanpro">ScanPro</div>
+                <div class="tab-card" role="tab" aria-selected="false" aria-controls="panel-erp" data-target="panel-erp">APPro ERP</div>
+            </div>
+
+            <!-- Dynamic Container for Active Panels -->
+            <div class="dynamic-container">
+                
+                <!-- Initial Placeholder View -->
+                <div id="tab-placeholder" class="tab-placeholder">
+                    <div class="tab-placeholder-icon">👆</div>
+                    <p>Selecciona una solución para ver los detalles.</p>
+                </div>
+
+                <!-- PANEL 1: APPro -->
+                <section id="panel-appro" class="tab-panel" role="tabpanel" aria-labelledby="tab-appro">
+                    <div class="panel-header">
+                        <h2 class="panel-title">Gestiona tu taller automotriz de manera inteligente con APPro IA 2.6</h2>
+                        <p class="panel-subtitle">Digitaliza y optimiza tu centro de servicios con el sistema más eficiente del mercado.</p>
+                    </div>
+                    
+                    <div class="benefits-grid">
+                        <article class="benefit-card">
+                            <h3>Asistencia con IA</h3>
+                            <p>Conoce a SophIA, tu asistente digital. Registra la información al instante.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>Checklists Digitales</h3>
+                            <p>Realiza revisiones y medición de neumáticos desde cualquier móvil.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>Cierre Ágil</h3>
+                            <p>Cotiza automáticamente con todos tus métodos de pago y firmas digitales.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>Fidelización</h3>
+                            <p>Envía recordatorios automáticos a tus clientes para asegurar su regreso.</p>
+                        </article>
+                    </div>
+
+                    <div class="cycle-section">
+                        <h3 class="cycle-title">El ciclo 360°</h3>
+                        <ol class="cycle-timeline">
+                            <li class="cycle-step">
+                                <span class="cycle-step-marker">1</span>
+                                <span class="cycle-step-text">Pre-venta y Prospección (CRM)</span>
+                            </li>
+                            <li class="cycle-step">
+                                <span class="cycle-step-marker">2</span>
+                                <span class="cycle-step-text">Atención y Operación</span>
+                            </li>
+                            <li class="cycle-step">
+                                <span class="cycle-step-marker">3</span>
+                                <span class="cycle-step-text">Post-venta y Marketing</span>
+                            </li>
+                            <li class="cycle-step">
+                                <span class="cycle-step-marker">4</span>
+                                <span class="cycle-step-text">Reportes e Integraciones</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="panel-cta">
+                        <!-- ENLACE ACTUALIZADO -->
+                        <a href="demo.html" class="btn btn-primary">Solicita una demo</a>
+                    </div>
+                </section>
+
+                <!-- PANEL 2: BMP -->
+                <section id="panel-bmp" class="tab-panel" role="tabpanel" aria-labelledby="tab-bmp">
+                    <div class="panel-header">
+                        <h2 class="panel-title">BMP: Automatización inteligente para fidelizar y crecer.</h2>
+                        <p class="panel-subtitle">El módulo de marketing directo de APPro impulsado por IA. Conecta mediante WhatsApp y Email.</p>
+                    </div>
+                    <div class="benefits-grid">
+                        <article class="benefit-card">
+                            <h3>🕒 Alertas automáticas</h3>
+                            <p>Envía recordatorios de mantenimiento y vencimientos sin intervención manual.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>🎯 Campañas segmentadas</h3>
+                            <p>Llega al público correcto filtrando tu base de datos por historial o frecuencia.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>🤖 Redacción con SophIA</h3>
+                            <p>Genera textos profesionales para tus promociones en segundos usando IA.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>💬 Ecosistema integrado</h3>
+                            <p>Ejecuta tus comunicaciones directamente desde la plataforma, en sincronía con tu taller.</p>
+                        </article>
+                    </div>
+                    <div class="panel-cta">
+                        <!-- ENLACE ACTUALIZADO -->
+                        <a href="demo.html" class="btn btn-primary">Solicita una demo</a>
+                    </div>
+                </section>
+
+                <!-- PANEL 3: ScanPro -->
+                <section id="panel-scanpro" class="tab-panel" role="tabpanel" aria-labelledby="tab-scanpro">
+                    <div class="panel-header">
+                        <h2 class="panel-title">ScanPro: La herramienta móvil que impulsa tus ventas.</h2>
+                        <p class="panel-subtitle">Escanea patentes y neumáticos desde cualquier celular. Captura el desgaste en segundos.</p>
+                    </div>
+                    <div class="benefits-grid">
+                        <article class="benefit-card">
+                            <h3>⏱️ 5x Más rápido</h3>
+                            <p>Optimiza los tiempos de recepción y reduce las esperas de tus clientes en el taller.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>📱 100% Móvil y Digital</h3>
+                            <p>Sin papeles ni procesos complejos. Toda la potencia del escaneo en la palma de tu mano.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>🔍 Diagnósticos visuales</h3>
+                            <p>Genera reportes claros con gráficos interactivos que demuestran la necesidad del cambio.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>📈 Ventas en piloto automático</h3>
+                            <p>Incrementa el ticket promedio sugiriendo neumáticos y alineaciones justificadas.</p>
+                        </article>
+                    </div>
+                    <div class="panel-cta">
+                        <!-- ENLACE ACTUALIZADO -->
+                        <a href="demo.html" class="btn btn-primary">Solicita una demo gratis</a>
+                        <a href="#" class="btn btn-secondary">Descargar en Google Play</a>
+                    </div>
+                </section>
+
+                <!-- PANEL 4: APPro ERP -->
+                <section id="panel-erp" class="tab-panel" role="tabpanel" aria-labelledby="tab-erp">
+                    <div class="panel-header">
+                        <h2 class="panel-title">APPro ERP: Tu taller integrado en una sola plataforma.</h2>
+                        <p class="panel-subtitle">Desarrollado con Odoo. Un ERP de clase mundial diseñado para la posventa automotriz.</p>
+                    </div>
+                    <div class="benefits-grid">
+                        <article class="benefit-card">
+                            <h3>⏳ Ahorro de tiempo radical</h3>
+                            <p>Automatiza la contabilidad, la facturación y los flujos de inventario en tiempo real.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>📈 Control y rentabilidad</h3>
+                            <p>Monitorea tus margins de ganancia, costos operativos e indicadores clave desde un dashboard.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>🔄 Ecosistema centralizado</h3>
+                            <p>Vincula tus órdenes de reparación directamente con las compras y el stock disponible.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>🚀 Escalabilidad garantizada</h3>
+                            <p>Ideal tanto para un centro de servicio único como para una red de sucursales en expansión.</p>
+                        </article>
+                    </div>
+                    <div class="panel-cta">
+                        <!-- ENLACE ACTUALIZADO -->
+                        <a href="demo.html" class="btn btn-primary">Solicita una demo de APPro ERP</a>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabCards = document.querySelectorAll('.tab-card');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            const placeholder = document.getElementById('tab-placeholder');
+
+            tabCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const targetPanelId = card.getAttribute('data-target');
+                    const targetPanel = document.getElementById(targetPanelId);
+
+                    if (card.classList.contains('is-active')) return;
+
+                    if (placeholder) {
+                        placeholder.style.display = 'none';
+                    }
+
+                    tabCards.forEach(c => {
+                        c.classList.remove('is-active');
+                        c.setAttribute('aria-selected', 'false');
+                    });
+
+                    tabPanels.forEach(panel => {
+                        if (panel.classList.contains('is-active')) {
+                            panel.classList.remove('is-active');
+                        }
+                    });
+
+                    card.classList.add('is-active');
+                    card.setAttribute('aria-selected', 'true');
+
+                    targetPanel.classList.add('is-active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
