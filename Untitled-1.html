@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APPro - CRM para Centros de Servicio Automotriz</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           Variables CSS y Reseteo Básico
+           ========================================= */
+        :root {
+            --color-primary: #FF3B1D;
+            --color-primary-hover: #D62F15;
+            --color-bg-light: #F8F9FA;
+            --color-header-bg: #FFFFFF;
+            --color-text-dark: #111827;
+            --color-text-muted: #4B5563;
+            --color-placeholder-bg: #E5E7EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Activa el desplazamiento suave para los anclajes del menú */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-light);
+            color: var(--color-text-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Evita que el header fijo tape el título de las secciones al bajar */
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        /* =========================================
+           Estilos de la Cabecera (Header) y Logo
+           ========================================= */
+        .header {
+            background-color: var(--color-header-bg);
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #E5E7EB;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--color-text-dark);
+            font-weight: 800;
+            font-size: 1.75rem;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-isotipo {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            transform: rotate(-10deg);
+        }
+
+        .logo-isotipo .line {
+            width: 18px;
+            height: 3px;
+            background-color: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        .logo-isotipo .line:nth-child(2) { width: 24px; }
+        .logo-isotipo .line:nth-child(3) { width: 12px; }
+
+        .logo-text {
+            font-family: 'Inter', sans-serif;
+            color: var(--color-primary);
+        }
+
+        /* =========================================
+           Menú de Navegación
+           ========================================= */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        /* =========================================
+           Layout de la Hero Section
+           ========================================= */
+        .hero {
+            padding: 180px 24px 120px 24px; /* Aumentado padding-top por el menú fijo */
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 64px;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* =========================================
+           Tipografía Hero
+           ========================================= */
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* =========================================
+           Botones
+           ========================================= */
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: #FFFFFF;
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary-hover);
+            border-color: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 59, 29, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 59, 29, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* =========================================
+           Imagen del mockup (Hero)
+           ========================================= */
+        .hero-mockup {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+
+        /* =========================================
+           Estilos para las secciones de contenido (Temporal)
+           ========================================= */
+        .content-section {
+            padding: 100px 24px;
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .content-section:nth-child(even) {
+            background-color: #FFFFFF; /* Intercala colores de fondo */
+        }
+
+        /* =========================================
+           Media Queries (Responsive)
+           ========================================= */
+        @media (max-width: 992px) {
+            .nav-list { display: none; } /* Oculta menú en tablets/móviles */
+            .hero-title { font-size: 2.75rem; }
+            .hero-container { gap: 48px; }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 140px 20px 60px 20px;
+                text-align: center;
+            }
+            .hero-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .hero-content { max-width: 100%; }
+            .hero-title { font-size: 2.25rem; }
+            .hero-subtitle { font-size: 1.125rem; }
+            .hero-buttons {
+                justify-content: center;
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="Untitled-1.html#home" class="logo">
+                <div class="logo-wrapper">
+                    <div class="logo-isotipo">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                    <span class="logo-text">APPro</span>
+                </div>
+            </a>
+    
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="Untitled-1.html#home" class="nav-link">Home</a></li>
+                    <li><a href="soluciones.html" class="nav-link">Soluciones</a></li>
+                    <li><a href="#precios" class="nav-link">Precios</a></li>
+                    <li><a href="#casos" class="nav-link">Casos de éxito</a></li>
+                    <li><a href="#nosotros" class="nav-link">Quienes somos</a></li>
+                    <li><a href="#partner" class="nav-link">Partner</a></li>
+                    <li><a href="#blog" class="nav-link">Blog</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-container">
+            
+            <div class="hero-content">
+                <h1 class="hero-title">Gestión inteligente para centros de servicio automotriz.</h1>
+                <p class="hero-subtitle">Plataforma integral para optimizar procesos, mejorar la productividad y administrar tu taller desde un solo lugar. Fácil de usar y diseñada para el sector.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary">Solicita una Demo</a>
+                    <a href="#" class="btn btn-secondary">Contactar por WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <img src="mockup.png" alt="Vista previa de la plataforma APPro" class="hero-mockup">
+            </div>
+
+        </div>
+    </section>
+
+    <section id="precios" class="content-section">
+        <div class="content-container">
+            <h2>Planes y Precios</h2>
+            <p>Elige el plan que mejor se adapte al tamaño de tu taller...</p>
+        </div>
+    </section>
+
+    <section id="casos" class="content-section">
+        <div class="content-container">
+            <h2>Casos de Éxito</h2>
+            <p>Conoce a los talleres que ya han aumentado su rentabilidad con nuestro CRM...</p>
+        </div>
+    </section>
+
+    <section id="nosotros" class="content-section">
+        <div class="content-container">
+            <h2>Quiénes Somos</h2>
+            <p>Somos un equipo de apasionados por la tecnología y la industria automotriz...</p>
+        </div>
+    </section>
+
+    <section id="partner" class="content-section">
+        <div class="content-container">
+            <h2>Programa de Partners</h2>
+            <p>Únete a nuestra red de aliados estratégicos y crece junto a nosotros...</p>
+        </div>
+    </section>
+
+    <section id="blog" class="content-section" style="margin-bottom: 200px;">
+        <div class="content-container">
+            <h2>Nuestro Blog</h2>
+            <p>Últimas noticias, consejos para tu taller y actualizaciones de la plataforma...</p>
+        </div>
+    </section>
+
+</body>
+</html>
