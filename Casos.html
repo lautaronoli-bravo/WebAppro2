@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APPro - CRM</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           Variables CSS y Reseteo Básico
+           ========================================= */
+        :root {
+            --color-primary: #FF3B1D;
+            --color-primary-hover: #D62F15;
+            --color-bg-light: #F8F9FA;
+            --color-header-bg: #FFFFFF;
+            --color-text-dark: #111827;
+            --color-text-muted: #4B5563;
+            --color-placeholder-bg: #E5E7EB;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Activa el desplazamiento suave para los anclajes del menú */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-light);
+            color: var(--color-text-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Evita que el header fijo tape el título de las secciones al bajar */
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        /* =========================================
+           Estilos de la Cabecera (Header) y Logo
+           ========================================= */
+        .header {
+            background-color: var(--color-header-bg);
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #E5E7EB;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--color-text-dark);
+            font-weight: 800;
+            font-size: 1.75rem;
+            z-index: 1001; /* Asegura que el logo esté sobre el menú móvil */
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-isotipo {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            transform: rotate(-10deg);
+        }
+
+        .logo-isotipo .line {
+            width: 18px;
+            height: 3px;
+            background-color: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        .logo-isotipo .line:nth-child(2) { width: 24px; }
+        .logo-isotipo .line:nth-child(3) { width: 12px; }
+
+        .logo-text {
+            color: var(--color-primary);
+        }
+
+        /* =========================================
+           Menú de Navegación de Escritorio
+           ========================================= */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--color-primary);
+        }
+
+        /* =========================================
+           Menú Hamburguesa (Móvil)
+           ========================================= */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--color-text-dark);
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .menu-toggle.is-active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.is-active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background-color: var(--color-header-bg);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-menu-overlay.is-active {
+            opacity: 1; visibility: visible;
+        }
+
+        .mobile-nav-list {
+            list-style: none; text-align: center;
+            display: flex; flex-direction: column; gap: 24px;
+        }
+
+        .mobile-nav-link {
+            text-decoration: none;
+            color: var(--color-text-dark);
+            font-size: 1.5rem; font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .mobile-nav-link:hover, .mobile-nav-link.active { color: var(--color-primary); }
+
+        /* =========================================
+           Sección de Testimonios / Casos de Éxito
+           ========================================= */
+        .testimonials-section {
+            padding: 160px 24px 80px; /* Ajustado el padding superior por el header fijo */
+            background-color: var(--color-bg-light);
+            display: flex;
+            justify-content: center;
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            color: var(--color-text-dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--color-text-muted);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* 1. Stats Grid (Números) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .stat-card {
+            background-color: #FFFFFF;
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 40px 24px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1.0625rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+        }
+
+        /* 2. Stories Grid (Casos Escritos) */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .story-card {
+            background-color: #FFFFFF;
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .story-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .story-text {
+            font-size: 1.0625rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .story-link {
+            color: var(--color-primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s ease;
+        }
+
+        .story-link:hover {
+            color: var(--color-primary-hover);
+        }
+
+        /* 3. Video Section (Carrusel) */
+        .video-section {
+            background-color: #111827; /* Fondo oscuro para resaltar videos */
+            border-radius: 24px;
+            padding: 64px 40px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .video-header {
+            margin-bottom: 48px;
+        }
+
+        .video-header h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .video-header p {
+            color: #9CA3AF;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .shorts-carousel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .short-item {
+            aspect-ratio: 9/16; /* Proporción exacta de YouTube Shorts */
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #1F2937;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .short-item iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* =========================================
+           Media Queries (Responsive)
+           ========================================= */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+            .short-item {
+                aspect-ratio: 9/16;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-list { display: none; }
+            .menu-toggle { display: flex; }
+            
+            .stories-grid {
+                grid-template-columns: 1fr;
+            }
+            .shorts-carousel {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .testimonials-section {
+                padding: 120px 20px 60px;
+            }
+            .section-title { font-size: 2rem; }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .story-card {
+                padding: 24px;
+            }
+            
+            .video-section {
+                padding: 40px 20px;
+                border-radius: 16px;
+            }
+            
+            .shorts-carousel {
+                grid-template-columns: 1fr;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Cabecera (Header) -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-wrapper">
+                    <div class="logo-isotipo">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                    <span class="logo-text">APPro</span>
+                </div>
+            </a>
+
+            <!-- Navegación Escritorio -->
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="soluciones.html" class="nav-link">Soluciones</a></li>
+                    <li><a href="index.html#precios" class="nav-link">Precios</a></li>
+                    <li><a href="casos.html" class="nav-link active">Casos de éxito</a></li>
+                    <li><a href="index.html#nosotros" class="nav-link">Quienes somos</a></li>
+                    <li><a href="index.html#partner" class="nav-link">Partner</a></li>
+                    <li><a href="index.html#blog" class="nav-link">Blog</a></li>
+                </ul>
+                
+                <!-- Menú Hamburguesa -->
+                <div class="menu-toggle" id="mobile-menu-btn">
+                    <span></span><span></span><span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Overlay del Menú Móvil -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <ul class="mobile-nav-list">
+            <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="soluciones.html" class="mobile-nav-link">Soluciones</a></li>
+            <li><a href="index.html#precios" class="mobile-nav-link">Precios</a></li>
+            <li><a href="casos.html" class="mobile-nav-link active">Casos de éxito</a></li>
+            <li><a href="index.html#nosotros" class="mobile-nav-link">Quienes somos</a></li>
+            <li><a href="index.html#partner" class="mobile-nav-link">Partner</a></li>
+            <li><a href="index.html#blog" class="mobile-nav-link">Blog</a></li>
+        </ul>
+    </div>
+
+    <!-- Sección de Testimonios / Casos de Éxito -->
+    <main class="testimonials-section">
+        <div class="testimonials-container">
+            
+            <!-- Encabezado -->
+            <div class="section-header">
+                <h1 class="section-title">Historias reales de talleres que crecieron con APPro</h1>
+                <p class="section-subtitle">Conoce cómo estos negocios lograron aumentar su facturación, digitalizar sus operaciones, automatizar procesos y fidelizar a sus clientes.</p>
+            </div>
+
+            <!-- 1. Los Números (Estadísticas) -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">+60%</div>
+                    <div class="stat-label">Incremento de facturación mensual</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">De los clientes que compraron, vuelven</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">+100%</div>
+                    <div class="stat-label">Aumento en cotizaciones generadas</div>
+                </div>
+            </div>
+
+            <!-- 2. Casos de Estudio Escritos -->
+            <div class="stories-grid">
+                <!-- Caso 1 -->
+                <div class="story-card">
+                    <h2 class="story-title">Cómo Marsili elevó sus ventas enviando WhatsApp en fechas clave</h2>
+                    <p class="story-text">Descubrí cómo Marsili logró potenciar sus ventas al conectar estratégicamente con sus clientes a través de WhatsApp durante fechas comerciales importantes. Una estrategia sencilla, efectiva y totalmente escalable gracias al CRM.</p>
+                    <a href="#" class="story-link">Ver caso completo →</a>
+                </div>
+
+                <!-- Caso 2 -->
+                <div class="story-card">
+                    <h2 class="story-title">De lo manual a lo digital: Stop and Go transformó su negocio al 100%</h2>
+                    <p class="story-text">Eduar Castaño, dueño de Stop and Go, cuenta cómo lograron digitalizar su centro de servicio desde cero con APPro. Hoy, su taller funciona sin papel, con procesos automatizados, mayor fidelización y una atención más ágil.</p>
+                    <a href="#" class="story-link">Ver caso completo →</>
+                </div>
+            </div>
+
+            <!-- 3. Carrusel de YouTube Shorts -->
+            <div class="video-section">
+                <div class="video-header">
+                    <h2>Lo que dicen nuestros clientes</h2>
+                    <p>Un resumen de talleres que ya confían en APPro IA 2.5. Escuchá cómo agilizaron inspecciones y generaron más confianza.</p>
+                </div>
+                
+                <div class="shorts-carousel">
+                    <!-- VIDEO 1 -->
+                    <div class="short-item">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+
+                    <!-- VIDEO 2 -->
+                    <div class="short-item">
+                        <iframe src="https://www.youtube.com/embed/AS2PSXJ6_N8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+
+                    <!-- VIDEO 3 -->
+                    <div class="short-item">
+                        <iframe src="https://www.youtube.com/embed/n3B8hF_2y_8?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript para el Menú Móvil -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenuOverlay = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            // Abrir/cerrar menú al hacer clic en la hamburguesa
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenuBtn.classList.toggle('is-active');
+                mobileMenuOverlay.classList.toggle('is-active');
+                // Bloquear el scroll de la página de fondo
+                document.body.style.overflow = mobileMenuOverlay.classList.contains('is-active') ? 'hidden' : '';
+            });
+
+            // Cerrar menú al hacer clic en un enlace
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenuBtn.classList.remove('is-active');
+                    mobileMenuOverlay.classList.remove('is-active');
+                    document.body.style.overflow = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
